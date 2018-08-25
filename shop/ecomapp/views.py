@@ -71,10 +71,12 @@ def category_view(request, category_slug):
         cart = Cart.objects.get(id=cart_id)
     category = Category.objects.get(slug=category_slug)
     products_of_category = Product.objects.filter(category=category)
+    categories = Category.objects.all()
     context = {
         'category': category,
         'products_of_category': products_of_category,
-        'cart': cart
+        'cart': cart,
+        'categories': categories
     }
     return render(request, 'category.html', context)
 
@@ -90,9 +92,10 @@ def cart_view(request):
         cart_id = cart.id
         request.session['cart_id'] = cart_id
         cart = Cart.objects.get(id=cart_id)
-
+    categories = Category.objects.all()
     context = {
-        'cart': cart
+        'cart': cart,
+        'categories': categories
     }
     return render(request, 'cart.html', context)
 

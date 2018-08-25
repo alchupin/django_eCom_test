@@ -38,6 +38,7 @@ class ProductManager(models.Manager):
 
 
 class Product(models.Model):
+    
     category = models.ForeignKey(Category)
     brand = models.ForeignKey(Brand)
     title = models.CharField(max_length=120)
@@ -77,8 +78,9 @@ class Cart(models.Model):
         cart = self
         product = Product.objects.get(slug=product_slug)
         new_item, _ = CartItem.objects.get_or_create(product=product, item_total=product.price)
+        cart_items = [item.product for item in cart.items.all()]
 
-        if new_item not in cart.items.all():
+        if new_item.product not in cart_items:
             cart.items.add(new_item)
             cart.save()
 
